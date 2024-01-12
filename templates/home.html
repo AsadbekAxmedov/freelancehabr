@@ -1,0 +1,485 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Make Xabr Freelance web site </title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"
+    integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+
+  <!-- navbar -->
+
+  <nav class="navbar is-black" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="{% url 'home' %}">
+            Хабр</strong> Фриланс |
+          </a>
+
+          <div class="navbar-dropdown pt-4">
+            <a class="navbar-item">
+              <strong>Xabr</strong>
+            </a>
+            <a class="navbar-item">
+              <strong>Q&A</strong>
+            </a>
+            <a class="navbar-item">
+              <strong>Karier</strong>
+            </a>
+            <a class="navbar-item">
+              <strong>freelance</strong>
+            </a>
+            <hr class="navbar-divider">
+            <a class="navbar-item">
+              Все сервисы Хабра
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <button class="button is-ghost is-size-7"
+          style="color: aquamarine; border: none; text-decoration: none; cursor: pointer;">Разбираемся, что мешает
+          карьерно развиваться девопсам</button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="section has-background-success py-3">
+    <nav class="level">
+      <div class="level-left">
+        <p class="level-item">
+          <a href="{% url 'order' %}" class="button is-rounded is-success" style="size: 20px; color: black;">Заказы</a>
+        </p>
+        <p class="level-item has-text-centered">
+          <a href="{% url 'base' %}" class="button is-rounded  is-success"
+            style="size: 20px; color: black;">Специалисты</a>
+        </p>
+        <p class="level-item has-text-centered">
+          <a href="{% url 'services' %}" class="button is-rounded is-success"
+            style="size: 20px; color: black;">Услуги</a>
+        </p>
+        <p class="level-item has-text-centered">
+          <a href=" {% url 'projects' %}" class="button is-rounded  is-success"
+            style="size: 20px; color: black;">Проект</a>
+        </p>
+        <p class="level-item has-text-centered">
+          <a href="{% url 'klub' %}" class="button is-rounded  is-success" style="size: 20px; color: black;">Клуб</a>
+        </p>
+      </div>
+      {% if user.is_authenticated %}
+      <div class="level-right">
+
+        <p class="level-item has-text-centered">
+
+          {% if user.role == 'customer' %}
+          <a href="{% url 'plus.html' %}"> <i class="fa-solid fa-circle-plus" style="color:  rgb(255, 255, 255); margin-right: 10px; font-size: 35px;"></i> </a>
+       
+          {% else %}
+          
+          {% endif %}
+         
+          <a href="{% url 'sign_out' %}" class="button is-rounded  " style="size: 20px; color: black;">Личный
+            Kабинет</a>
+        </p>
+
+        <div class="dropdown is-right is-hoverable">
+          <div class="dropdown-trigger">
+            {% if user.avatar %}
+            <img src="{{user.avatar.url }}" alt="" class="image" style="background-color: red; border-radius: 50%;"
+              width="40px">
+            {% else %}
+            <i class="fa-solid fa-user-tie"></i>
+            {% endif %}
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu" role="menu">
+            <div class="dropdown-content">
+              <a href="#" class="dropdown-item" style="background-color: whitesmoke;">
+                <p class="subtitle">Подпоска</p>
+                <p class="title is-5">{{user.username}}</p>
+              </a>
+              <hr class="p-0 m-0">
+              <a class="dropdown-item" href="{% url 'person.html' %}">
+                Профиль
+              </a>
+
+              <hr class="p-0 m-0">
+              <a class="dropdown-item" href="{% url 'new' %}">
+                Платные услуги
+              </a>
+
+              <hr class="p-0 m-0">
+              <a class="dropdown-item" href="{% url 'personal.html' %}">
+                Настройки
+              </a>
+
+              <hr class="p-0 m-0">
+              <a class="dropdown-item" href="{% url 'design' %}">
+                Новый Дизайн
+              </a>
+              <hr class="p-0 m-0">
+              {% if user.role == 'customer' %}
+              <a href="{% url 'change_role' %}?action=customer" class="dropdown-item">
+                Войти Kак Фрилансер
+              </a>
+              {% else %}
+              <a href="{% url 'change_role' %}?action=freelanse" class="dropdown-item">
+                Войти Kак Заказчик
+              </a>
+              {% endif %}
+              <hr class="m-0 p-0" class="dropdown-divider">
+              <a href="{% url 'sign_out' %}" class="dropdown-item">
+                Выход
+              </a>
+            </div>
+          </div>
+
+
+        </div>
+        {% else %}
+        <div class="level-right">
+          <p class="level-item has-text-centered">
+            <a href="{% url 'sign_in' %}" class="button is-rounded  is-success"
+              style="size: 20px; color: black;">Вход</a>
+          </p>
+          <p class="level-item has-text-centered">
+            <a href="{% url 'sign_up' %}" class="button  is-success is-outlined is-rounded"
+              style="size: 20px; color: black;">Регистрация</a>
+          </p>
+        </div>
+        {% endif %}
+
+
+    </nav>
+  </section>
+
+  <hr class="m-0 p-0 " style="background-color: #555;">
+
+  <section class="section has-background-success">
+    <br><br>
+    <div class="container">
+      <div class="columns">
+        <div class="column is-9">
+          <p class="subtitle is-size-3"><strong>Отдайте задачи фрилансерам <br> и освободите время <br> для
+              важного</strong><br>
+            <br>
+          <p class="title is-size-5"> Разработчики, дизайнеры и другие профессионалы ИТ-рынка готовы <br> выполнить вашу
+            задачу сейчас. </p>
+          <br><br>
+          <a href="{% url 'base' %}" class="button is-dark is-rounded" style="background-color: black;">Найти
+            специальность</a>
+          <br>
+        </div>
+
+        <div class="column">
+          <img src="{% static 'img/scrin1.png' %}" alt="">
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 taga bo'linish qismi -->
+
+    <div class="container" style="margin-top: 70px;">
+      <div class="columns">
+        <div class="column">
+          <div class="box">
+            <p class="title is-size-5">Разработка</p>
+            <p class="subtitle is-size-6">Сайты "под ключ" Бекенд Фронтенд и <br> другое</p>
+            <button class="button is-light is-rounded  is-outlined is-primary">+75 592</button>
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="box">
+            <p class="title is-size-5">Тестирование</p>
+            <p class="subtitle is-size-6">Сайты, Мобайл, Софт Я не знал, что написать, поэтому написал это</p>
+            <button class="button is-light is-rounded  is-outlined is-primary">+18 041</button>
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="box">
+            <p class="title is-size-5">Администртрование</p>
+            <p class="subtitle is-size-6">Серверы Компьютерные сети, Базы данных и другое</p>
+            <button class="button is-light is-rounded  is-outlined is-primary">+16 436</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="columns">
+        <div class="column ">
+          <div class="box">
+            <p class="title is-size-5">Дизайн</p>
+            <p class="subtitle is-size-6">Сайты, Лендинги, Логотипы и другое Я не знал, что написать, поэтому написал
+              это</p>
+            <button class="button is-light is-rounded  is-outlined is-primary">+52 787</button>
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="box">
+            <p class="title is-size-5">Контент</p>
+            <p class="subtitle is-size-6">Копирайтинг Рерайтинг Расшифровка аудио и видео и другое</p>
+            <button class="button is-light is-rounded  is-outlined is-primary">+28 765</button>
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="box">
+            <p class="title is-size-5">Маркетинг</p>
+            <p class="subtitle is-size-6">SMM, SEO, Контекстная реклама и другое Я не знал, что написать</p>
+            <button class="button is-light is-rounded is-outlined is-primary">+14 781</button>
+          </div>
+        </div>
+      </div>
+      <br><br>
+    </div>
+
+  </section>
+
+  <!-- navbar tugadi -->
+
+  <!-- 6 taga bo'linish qismi tugadi -->
+
+  <div class="container">
+    <div class="columns">
+      <div class="column is-size-4 is-8" style="margin-top: 30px; color: black;">
+        Пользуясь более чем десятилетним опытом <button class="button is-ghost is-size-6"
+          style="color: black;">Хабра</button>, <br> мы с удовольствием помогаем выстраивать сообщество людей,
+        связанных с миром фриланса. Например, помогаем новичкам без опыта набирать проекты для портфолио, связываем
+        заказчиков с выпускниками обучающих онлайн-площадок. <br><br>
+        Мы вдохновляемся тем, что и как делают наши пользователи, о чем разговаривают и как решают профессиональные
+        проблемы.</div>
+
+      <div class="column is-size-5" style="margin-top: 30px; color:black; ">
+        70% наших заказчиков работают на себя и растят свой бизнес с помощью фрилансеров. <br><br>
+        Половина регулярно работают с фрилансерами уже год и больше<br><br>
+        Большинство отдает фрилансерам задачи средней и высокой сложности, например, верстку лендинга или разработку
+        сервиса под ключ.
+      </div>
+    </div>
+  </div>
+  <br><br><br>
+
+  <!-- Type text -->
+
+  <div class="container">
+    <div class="text is-size-3">
+      <strong>
+        <p>Как построить работу с фрилансером?</p>
+      </strong>
+    </div>
+  </div>
+  <br><br>
+  <!-- Type text OVER -->
+
+
+  <!-- box| box first -->
+  <div class="container">
+    <div class="columns" style="margin-top: 20px;">
+      <div class="column">
+        <div class="box" style="background-color: whitesmoke;">
+          <p class="title is-5">1. Сформулируйте задачу</p>
+          <br>
+          <p class="subtitle">Чем точнее вы сможете описать нужный результат, тем проще вам будет найти исполнителя.</p>
+        </div>
+      </div>
+
+
+      <div class="column is-narrow">
+        <div class="box" style="width:300px; background-color: whitesmoke;">
+          <p class="title is-5"><strong> 15 откликов</strong></p>
+          <br>
+          <p class="subtitle">в среднем на и начните получать первые отклики.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Box Second  -->
+
+    <div class="columns" style="margin-top: 20px;">
+      <div class="column">
+        <div class="box" style="background-color: whitesmoke;">
+          <p class="title is-5">2. Опубликуйте заказ</p>
+          <br>
+          <p class="subtitle">Бесплатно опубликуйте заказ и начните получать первые отклики. Кроме всех внутренних
+            инструментов для привлечения фрилансеров, мы задействуем и внешние — заказ увидят пользователи самого
+            крупного ИТ-сообщества в Европе</p>
+        </div>
+      </div>
+
+
+      <div class="column is-narrow">
+        <div class="box" style="width: 300px;background-color: whitesmoke;">
+          <p class="title is-5"><strong>80% заказов</strong></p>
+          <br>
+          <p class="subtitle">получают первый отклик в <br> течение 5 минут <br> this is a pidoras</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Box third -->
+
+    <div class="columns" style="margin-top: 20px;">
+      <div class="column">
+        <div class="box" style="background-color: whitesmoke;">
+          <p class="title is-5">3. Выберите исполнителя</p>
+          <br>
+          <p class="subtitle">Поговорите с фрилансерами, оцените их портфолио, ставку и выберите исполнителя.
+            <br>
+            Инструкция: как выбрать фрилансера
+          </p>
+        </div>
+      </div>
+
+
+      <div class="column is-narrow">
+        <div class="box " style="width: 300px; background-color: whitesmoke;">
+          <p class="title is-5"><strong>60 000 фрилансеров</strong></p>
+          <br>
+          <p class="subtitle">наша база данных</p>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <!-- Box fourth -->
+
+    <div class="columns" style="margin-top: 20px;">
+      <div class="column">
+        <div class="box" style="background-color: whitesmoke;">
+          <p class="title is-5">4. Получите результат</p>
+          <br>
+          <p class="subtitle">Примите работу, оплатите заказ и оставьте отзыв о фрилансере. <br> мы задействуем</p>
+        </div>
+      </div>
+
+      <div class="column is-narrow">
+        <div class="box " style="width: 300px; background-color: whitesmoke;">
+          <p class="title is-5"><strong>2000 заказов</strong></p>
+          <br>
+          <p class="subtitle">успешно выполнено в месяц</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br><br>
+  <div class="container">
+    <div class="columns">
+      <div class="column ">
+        <img src="{% static 'img/scrin2.png' %}" alt="">
+      </div>
+      <div class="column is-9" style="margin-top: 110px;">
+        <p class="title is-3" style="color: black;"><strong>Мы заботимся о вашей безопасности</strong></p>
+        <p class="subtitle is-size-4" style="color: black;">
+          В работе с фрилансерами есть свои риски.
+          Безопасная сделка — сервис, который эти риски снижает.
+          C ним вы можете быть уверены, что вам не придется оплачивать некачественную работу или что фрилансер не
+          исчезнет с предоплатой.
+          <br><br>
+          <button class="button is-ghost is-size-5" style="color: black;"> <strong>Подробнее о безопасной
+              сделке</strong></button>
+        </p>
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <hr>
+
+  <br><br>
+  <br><br>
+  <div class="container">
+    <div class="columns">
+      <div class="column is-9">
+        <p class="subtitle is-size-4" style="color: black;"><strong>Помогаем работать эффективнее</strong><br>
+          <br>
+          Мы точно знаем, что фриланс — это больше, чем разовые заказы <br> или поиск более низкой ставки. <br>
+          <br>
+          Фриланс — это удобный, масштабируемый инструмент для <br> компаний. А для специалистов — возможность работать
+          <br> и развиваться в интересных проектах без территориальных <br> ограничений.
+        </p>
+
+        <button class="button is-success is-outlined is-rounded">Зарегистрирова</button>
+        <br>
+      </div>
+
+      <div class="column">
+        <img src="{% static 'img/scrin.png' %}" alt="" class="is-size-9">
+      </div>
+    </div>
+  </div>
+  <br><br><br>
+  <hr>
+
+  <nav class="level">
+    <div class="level-item has-text-centered">
+      <div>
+        <p class="title"> Хабр фриланс </p>
+        <br>
+        <button class="button is-ghost is-size-5"
+          style="color: black; border: none; text-decoration: none; cursor: pointer;"> O сервисe</button>
+        <br><br>
+        <button class="button is-ghost is-size-5"
+          style="color: black; border: none; text-decoration: none; cursor: pointer;">услуги и цены</button>
+        <br><br>
+        <button class="button is-ghost is-size-5"
+          style="color: black; border: none; text-decoration: none; cursor: pointer;">контакты</button>
+        <br><br>
+        <button class="button is-ghost is-size-5"
+          style="color: black; border: none; text-decoration: none; cursor: pointer;">@Habr</button>
+      </div>
+    </div>
+    <div class="level-item has-text-centered">
+      <div>
+        <p class="title"> помощь </p>
+        <br>
+        <button class="button is-ghost is-size-5"
+          style="color: black; border: none; text-decoration: none; cursor: pointer;"> для прилансерии</button>
+        <br><br>
+        <button class="button is-ghost is-size-5"
+          style="color: black; border: none; text-decoration: none; cursor: pointer;">сервис поддержки</button>
+        <br><br>
+        <button class="button is-ghost is-size-5"
+          style="color: black; border: none; text-decoration: none; cursor: pointer;">работа поддержки</button>
+      </div>
+    </div>
+    <div class="level-item has-text-centered">
+      <div>
+        <p class="title"> документы </p>
+        <br>
+        <button class="button is-ghost is-size-5"
+          style="color: black;  border: none; text-decoration: none; cursor: pointer;"> Соглашение с
+          пользователем</button>
+        <br><br>
+        <button class="button is-ghost is-size-5"
+          style="color: black;  border: none; text-decoration: none; cursor: pointer;">Правила оказания услуг</button>
+        <br><br>
+        <button class="button is-ghost is-size-5"
+          style="color: black;  border: none; text-decoration: none; cursor: pointer;">Полотика
+          конференциальности</button>
+      </div>
+    </div>
+  </nav>
+  </div>
+</body>
+
+</html>

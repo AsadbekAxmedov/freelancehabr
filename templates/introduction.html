@@ -1,0 +1,310 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Make Xabr Freelance web site </title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"
+    integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- navbar -->
+
+  <nav class="navbar is-black" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="{% url 'home' %}">
+            Хабр</strong> Фриланс |
+          </a>
+
+          <div class="navbar-dropdown pt-4">
+            <a class="navbar-item">
+              <strong>Xabr</strong>
+            </a>
+            <a class="navbar-item">
+              <strong>Q&A</strong>
+            </a>
+            <a class="navbar-item">
+              <strong>Karier</strong>
+            </a>
+            <a class="navbar-item">
+              <strong>freelance</strong>
+            </a>
+            <hr class="navbar-divider">
+            <a class="navbar-item">
+              Все сервисы Хабра
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <button class="button is-ghost is-size-7"
+          style="color: aquamarine; border: none; text-decoration: none; cursor: pointer;">Разбираемся, что мешает
+          карьерно развиваться девопсам</button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="section py-3">
+    <nav class="level">
+      <div class="level-left">
+        <p class="level-item">
+          <a href="{% url 'order' %}" class="button is-ghost" style="size: 20px; color: black;">Заказы</a>
+        </p>
+        <p class="level-item has-text-centered">
+          <a href="{% url 'base' %}" class="button is-ghost" style="size: 20px; color: black;">Специалисты</a>
+        </p>
+        <p class="level-item has-text-centered">
+          <a href="{% url 'services' %}" class="button is-ghost" style="size: 20px; color: black;">Услуги</a>
+        </p>
+        <p class="level-item has-text-centered">
+          <a href="{% url 'projects' %}" class="button is-ghost" style="size: 20px; color: black;">Проект</a>
+        </p>
+        <p class="level-item has-text-centered">
+          <a href="{% url 'klub' %}" class="button is-ghost" style="size: 20px; color: black;">Клуб</a>
+        </p>
+      </div>
+      {% if user.is_authenticated %}
+      <div class="level-right">
+
+        <p class="level-item has-text-centered">
+
+          {% if user.role == 'customer' %}
+          <a href="{% url 'plus.html' %}"> <i class="fa-solid fa-circle-plus" style="color:  #c3c3c3; margin-right: 10px; font-size: 35px;"></i> </a>
+       
+          {% else %}
+          
+          {% endif %}
+         
+          <a href="{% url 'sign_out' %}" class="button is-rounded  " style="size: 20px; color: black;">Личный
+            Kабинет</a>
+        </p>
+
+        <div class="dropdown is-right is-hoverable">
+          <div class="dropdown-trigger">
+            {% if user.avatar %}
+            <img src="{{user.avatar.url }}" alt="" class="image" style="background-color: red; border-radius: 50%;"
+              width="40px">
+            {% else %}
+            <i class="fa-solid fa-user-tie"></i>
+            {% endif %}
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu" role="menu">
+            <div class="dropdown-content">
+              <a href="#" class="dropdown-item" style="background-color: whitesmoke;">
+                <p class="subtitle">Подпоска</p>
+                <p class="title is-5">{{user.username}}</p>
+              </a>
+              <hr class="p-0 m-0">
+              <a class="dropdown-item" href="{% url 'person.html' %}">
+                Профиль
+              </a>
+
+              <hr class="p-0 m-0">
+              <a class="dropdown-item" href="{% url 'new' %}">
+                Платные услуги
+              </a>
+
+              <hr class="p-0 m-0">
+              <a class="dropdown-item" href="{% url 'personal.html' %}">
+                Настройки
+              </a>
+
+              <hr class="p-0 m-0">
+              <a class="dropdown-item" href="{% url 'design' %}">
+                Новый Дизайн
+              </a>
+              <hr class="p-0 m-0">
+              {% if user.role == 'customer' %}
+              <a class="dropdown-item">
+                Войти Kак Фрилансер
+              </a>
+              {% else %}
+              <a class="dropdown-item">
+                Войти Kак Заказчик
+              </a>
+              {% endif %}
+
+              <hr class="m-0 p-0" class="dropdown-divider">
+              <a href="{% url 'sign_out' %}" class="dropdown-item">
+                Выход
+              </a>
+            </div>
+          </div>
+
+        </div>
+        {% else %}
+        <div class="level-right">
+          <p class="level-item has-text-centered">
+            <a href="{% url 'sign_in' %}" class="button is-rounded" style="size: 20px; color: black;">Вход</a>
+          </p>
+          <p class="level-item has-text-centered">
+            <a href="{% url 'sign_up' %}" class="button is-outlined is-rounded"
+              style="size: 20px; color: black;">Регистрация</a>
+          </p>
+        </div>
+        {% endif %}
+    </nav>
+  </section>
+  <hr>
+  <br>
+
+    <div class="container">
+        <div class="box">
+            <div class="columns">
+            <div class="column">
+                <p class="is-size-5" style="margin-left:110px;"><strong>Ура, вы подтвердили регистрацию!</strong></p>
+                <br>
+                <p  class="is-size-6" style="color: black; margin-left:110px;">Еще немного, и вы сможете найти свой первый заказ. Пожалуйста, <br> представьтесь и привяжите свой номер телефона. Он не будет указан <br>в вашем профиле и не будет доступен другим пользователям. <br> Обещаем  бережно хранить ваши данные и не передавать их  третьим лицам.</p> 
+            </div>
+    
+            <div class="column">
+                <img style="height:230px; margin-left: 200px;" src="{% static 'img/photo.png' %}" alt="">
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+
+    <div class="container">
+        <div class="columns" style="margin-top: 20px;">
+          <div class="column">
+            <div class="box" style="background-color: white;">
+              <p class="title is-5"  style="margin-left: 170px;">Персональные данные</p>
+              <div class="column" style="margin-left: 160px;">
+                    <article class="media">
+                      <div class="media-left">
+                        <figure class="image is-64x64">
+                          <img src="{% static 'img/nomalum.png' %}" style="height: 85px;" alt="Image">
+                        </figure>
+                      </div>
+                      <div class="media-content">
+                        <div class="content">
+                          <p>
+                            Формат: jpg, png
+                            <br>
+                            Максимальный размер файла: 1mb
+                            <br>
+                            <button class="button is-info is-outlined is-size-7"> загрузить </button>
+                        </div>
+                      </div>
+                    </article>
+                  
+                
+                
+                
+                <br><br>
+            <div class="columns">
+                <div class="column">
+                <label class="label">Имя</label>
+                <div class="control">
+                  <input class="input" style="width: 85%;" type="text" placeholder="">
+                </div>
+                </div>  
+
+                <div class="column">
+                 <label class="label">Фамилия</label>
+                 <div class="control">
+                    <input class="input"  type="text" placeholder="">
+                  </div>
+                </div>
+            </div>
+                <br><br>
+                
+          </div>
+         </div>
+        </div>
+        <br>
+        <!-- The Second Box -->
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="columns ">
+            <div class="column">
+                <div class="box">
+                    <div class="column">
+                        <button class="button is-info  is-3"  style="margin-left: 170px;">продалжить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+         <nav class="level">
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="title"> Хабр фриланс </p>
+                <br>
+                <button class="button is-ghost is-size-5"
+                  style="color: black; border: none; text-decoration: none; cursor: pointer;"> O сервисe</button>
+                <br><br>
+                <button class="button is-ghost is-size-5"
+                  style="color: black; border: none; text-decoration: none; cursor: pointer;">услуги и цены</button>
+                <br><br>
+                <button class="button is-ghost is-size-5"
+                  style="color: black; border: none; text-decoration: none; cursor: pointer;">контакты</button>
+                <br><br>
+                <button class="button is-ghost is-size-5"
+                  style="color: black; border: none; text-decoration: none; cursor: pointer;">@Habr</button>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="title" style="padding-bottom: 65px;"> помощь </p>
+                <br>
+                <button class="button is-ghost is-size-5"
+                  style="color: black; border: none; text-decoration: none; cursor: pointer;"> для прилансерии</button>
+                <br><br>
+                <button class="button is-ghost is-size-5"
+                  style="color: black; border: none; text-decoration: none; cursor: pointer;">сервис поддержки</button>
+                <br><br>
+                <button class="button is-ghost is-size-5"
+                  style="color: black; border: none; text-decoration: none; cursor: pointer;">работа поддержки</button>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="title" style="padding-bottom: 65px;"> документы </p>
+                <br>
+                <button class="button is-ghost is-size-5"
+                  style="color: black;  border: none; text-decoration: none; cursor: pointer;"> Соглашение с
+                  пользователем</button>
+                <br><br>
+                <button class="button is-ghost is-size-5"
+                  style="color: black;  border: none; text-decoration: none; cursor: pointer;">Правила оказания услуг</button>
+                <br><br>
+                <button class="button is-ghost is-size-5"
+                  style="color: black;  border: none; text-decoration: none; cursor: pointer;">Полотика
+                  конференциальности</button>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="title is-size-4" style="padding-bottom: 255px; color: black;">Следите за нами в соцсетях</p>
+
+                <button class="button is-info is-outlined is-ghost" style="border: none; text-decoration: none; cursor: pointer;"><i class="fa-brands fa-facebook" style="font-size: 50px;"></i></button> 
+                <button class="button is-info is-outlined is-ghost" style="border: none; text-decoration: none; cursor: pointer;"><i class="fa-brands fa-twitter" style="font-size: 50px;"></i></button>    
+                <button class="button is-info is-outlined is-ghost" style="border: none; text-decoration: none; cursor: pointer;"><i class="fa-brands fa-telegram" style="font-size: 50px;"></i></button>
+                <button class="button is-info is-outlined is-ghost" style="border: none; text-decoration: none; cursor: pointer;"><i class="fa-brands fa-telegram" style="font-size: 50px;"></i></button>     
+                </div>
+              </div>
+          </nav>
+
+</body>
+</html>
